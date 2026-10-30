@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f3eb">
+  <meta name="description" content="身近なものから、知らない世界へ。商品をきっかけに知識を発見するアプリ。">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>ハッケン！</title>
+  <style>
+    :root{--bg:#f6f3eb;--paper:#fffdf8;--ink:#26352e;--muted:#718078;--green:#47745d;--green2:#e5efe7;--orange:#e89b55;--line:#e8e3d8;--shadow:0 10px 28px rgba(45,62,49,.08);--radius:22px}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-rounded,"Hiragino Maru Gothic ProN","Noto Sans JP",system-ui,sans-serif}
+    button,input{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;min-height:100dvh;padding-bottom:92px}
+    header{padding:22px 20px 12px;display:flex;justify-content:space-between;align-items:center}
+    .brand{font-size:25px;font-weight:900;letter-spacing:.03em}.brand span{color:var(--green)}.subbrand{font-size:11px;color:var(--muted);margin-top:2px}
+    .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:12px;color:var(--muted)}
+    main{padding:8px 16px 24px}.screen{display:none}.screen.active{display:block}
+    .hero{background:linear-gradient(135deg,#dce9d9,#f0e8d4);border-radius:28px;padding:24px 22px;position:relative;overflow:hidden;min-height:205px;box-shadow:var(--shadow)}
+    .hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.32);right:-48px;top:28px}
+    .hero-kicker{font-size:12px;color:#53745c;font-weight:800;letter-spacing:.08em}.hero h1{font-size:27px;line-height:1.35;margin:10px 0 8px;max-width:360px;position:relative;z-index:1}
+    .hero p{font-size:13px;color:#5f7164;line-height:1.7;max-width:310px;margin:0;position:relative;z-index:1}
+    .hero-art{position:absolute;right:14px;bottom:10px;font-size:75px;z-index:1;filter:drop-shadow(0 7px 5px #84977c55)}
+    .section-head{display:flex;align-items:end;justify-content:space-between;margin:24px 4px 12px}.section-head h2{font-size:17px;margin:0}.section-head small{color:var(--muted);font-size:11px}
+    .quick{display:grid;grid-template-columns:1fr 1fr;gap:11px}.quick button{border:0;border-radius:20px;background:var(--paper);padding:17px;text-align:left;box-shadow:var(--shadow);color:var(--ink);min-height:112px}
+    .quick .ico{font-size:25px;display:block;margin-bottom:8px}.quick strong{font-size:14px}.quick small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+    .progress-card,.product-card,.knowledge-card,.town-card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:17px;box-shadow:var(--shadow)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:#f5f2e9;border-radius:16px;padding:12px 8px;text-align:center}.stat b{display:block;font-size:21px}.stat span{font-size:10px;color:var(--muted)}
+    .bar{height:8px;border-radius:99px;background:#e9e7dd;overflow:hidden;margin-top:12px}.bar i{display:block;height:100%;background:var(--green);border-radius:99px}
+    .btn{border:0;border-radius:15px;padding:13px 16px;background:var(--green);color:white;font-weight:800;width:100%;box-shadow:0 5px 12px #47745d30}.btn.secondary{background:var(--green2);color:var(--green);box-shadow:none}.btn.ghost{background:#f2efe6;color:var(--ink);box-shadow:none}
+    .btn:disabled{opacity:.45;cursor:not-allowed}.row{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}
+    .muted{color:var(--muted)}.tiny{font-size:11px}.scan-box{border:2px dashed #b9cbb9;background:#eef4eb;border-radius:22px;padding:24px 16px;text-align:center}
+    video{width:100%;border-radius:18px;background:#1d2a22;max-height:300px;object-fit:cover;margin-top:12px;display:none}
+    .manual{display:flex;gap:8px;margin-top:12px}.manual input{min-width:0;flex:1;border:1px solid var(--line);background:white;border-radius:13px;padding:12px}
+    .manual button{border:0;background:var(--green);color:white;border-radius:13px;padding:0 16px;font-weight:800}
+    .message{padding:12px 14px;border-radius:14px;background:#fff3df;color:#805d31;font-size:12px;line-height:1.6;margin-top:12px}
+    .product-visual{height:140px;border-radius:18px;background:linear-gradient(135deg,#e9e1cf,#f6f1e5);display:grid;place-items:center;font-size:72px;margin-bottom:14px}
+    .tag{display:inline-block;background:#edf2e9;color:#4d735a;border-radius:99px;padding:5px 9px;font-size:10px;font-weight:800;margin:2px}
+    .knowledge-list{display:grid;gap:10px}.knowledge-item{display:flex;gap:12px;align-items:center;background:var(--paper);border:1px solid var(--line);padding:13px;border-radius:17px;text-align:left;width:100%;color:var(--ink)}
+    .knowledge-item .num{width:39px;height:39px;border-radius:13px;background:#e9efe5;display:grid;place-items:center;font-weight:900;color:var(--green);flex:none}
+    .knowledge-item.locked{opacity:.55}.knowledge-item strong{font-size:13px;display:block}.knowledge-item small{color:var(--muted);font-size:10px}
+    .story-image{height:160px;border-radius:18px;background:linear-gradient(135deg,#d8e4d2,#eee1c9);display:grid;place-items:center;font-size:76px;margin-bottom:16px}
+    .story h1{font-size:23px;line-height:1.4;margin:8px 0}.story p{font-size:14px;line-height:1.9;color:#536159}
+    .choices{display:grid;gap:9px;margin-top:14px}.choice{border:1px solid var(--line);border-radius:16px;background:#fff;padding:13px;text-align:left;color:var(--ink)}.choice b{display:block;font-size:13px}.choice small{color:var(--muted);font-size:11px}
+    .choice.selected{border:2px solid var(--green);background:#f0f5ef}
+    .bottom{position:fixed;bottom:0;left:0;right:0;background:#fffdf8ed;backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:9px max(12px,env(safe-area-inset-left)) calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:10}
+    .nav{max-width:720px;width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.nav button{border:0;background:transparent;color:#879189;border-radius:14px;padding:7px 2px;font-size:10px}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{color:var(--green);background:#edf3eb;font-weight:900}
+    .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:#26352e;color:white;border-radius:99px;padding:11px 17px;font-size:12px;z-index:20;display:none;white-space:nowrap}
+    .modal-bg{position:fixed;inset:0;background:#1b2a2290;display:none;align-items:end;justify-content:center;z-index:30;padding:14px}.modal{background:var(--paper);border-radius:24px;padding:22px;width:min(100%,520px);max-height:85dvh;overflow:auto}
+    .map-node{border:1px solid var(--line);border-radius:13px;padding:9px;text-align:center;font-size:11px;background:#fff}
+    @media(min-width:600px){main{padding-left:22px;padding-right:22px}.hero{padding:30px}.hero h1{font-size:32px}.quick button{padding:20px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div><div class="brand">ハッケン<span>！</span></div><div class="subbrand">身近なものから、知らない世界へ。</div></div>
+    <div class="pill">🌱 <b id="headerWood">0</b> 木材</div>
+  </header>
+  <main>
+    <section id="home" class="screen active">
+      <div class="hero">
+        <div class="hero-kicker">きょうの小さな発見</div>
+        <h1>いつものものから、<br>世界を広げよう。</h1>
+        <p>おうちにある商品を読み取って、知らなかった歴史や科学に出会おう。</p>
+        <div class="hero-art">🏡</div>
+      </div>
+      <div class="section-head"><h2>何をしてみる？</h2><small>自分のペースでOK</small></div>
+      <div class="quick">
+        <button onclick="showScreen('scan')"><span class="ico">📷</span><strong>商品をスキャン</strong><small>身近なものから発見</small></button>
+        <button onclick="showScreen('discover')"><span class="ico">✨</span><strong>知識を探検</strong><small>気になることを見つけよう</small></button>
+      </div>
+      <div class="section-head"><h2>ぼく・わたしの発見</h2><small>少しずつ広がる世界</small></div>
+      <div class="progress-card">
+        <div class="row between"><strong>知識のコレクション</strong><span class="tiny muted" id="knowledgeCount">0 / 10</span></div>
+        <div class="bar"><i id="knowledgeBar" style="width:0%"></i></div>
+        <div class="stats">
+          <div class="stat"><b id="statDiscoveries">0</b><span>発見した知識</span></div>
+          <div class="stat"><b id="statProducts">0</b><span>商品</span></div>
+          <div class="stat"><b id="statWood">0</b><span>木材</span></div>
+        </div>
+      </div>
+      <div class="section-head"><h2>最近の発見</h2><small>記録はこの端末に保存</small></div>
+      <div id="recent" class="panel tiny muted">まだ発見はありません。まずは商品をスキャンしてみよう。</div>
+    </section>
+
+    <section id="scan" class="screen">
+      <div class="section-head"><h2>商品をスキャン</h2><small>おうちにあるものでOK</small></div>
+      <div class="scan-box">
+        <div style="font-size:42px">📷</div>
+        <h2 style="font-size:18px;margin:8px 0">バーコードを読み取ろう</h2>
+        <p class="tiny muted">カメラを使うか、JANコードを入力してね。</p>
+        <button class="btn" id="cameraBtn" onclick="toggleCamera()">カメラを起動する</button>
+        <video id="video" playsinline></video>
+        <div id="cameraMsg" class="tiny muted" style="margin-top:9px"></div>
+      </div>
+      <div class="section-head"><h2>手入力でもOK</h2><small>JAN-13 / JAN-8</small></div>
+      <div class="manual"><input id="janInput" inputmode="numeric" maxlength="14" placeholder="例：4903001019124"><button onclick="submitManual()">読み取る</button></div>
+      <div id="scanMessage"></div>
+      <div class="message">この試作品では、醤油1商品のJANコードを登録しています。ほかの商品は未登録として案内します。商品を買う必要はありません。</div>
+      <div id="scanResult" style="margin-top:16px"></div>
+    </section>
+
+    <section id="discover" class="screen">
+      <div class="section-head"><h2>知識を探検</h2><small>気になるカードを選ぼう</small></div>
+      <div class="message" style="margin:0 0 14px">知識は順番どおりに進まなくても大丈夫。気になったものから見てみよう。</div>
+      <div id="knowledgeList" class="knowledge-list"></div>
+    </section>
+
+    <section id="story" class="screen">
+      <div id="storyContent"></div>
+    </section>
+
+    <section id="town" class="screen">
+      <div class="section-head"><h2>ぼく・わたしの小さな町</h2><small>発見で少しずつ育つ</small></div>
+      <div class="town-card">
+        <div style="font-size:76px;text-align:center;padding:18px 0">🏡 🌳</div>
+        <h2 style="font-size:19px;text-align:center">はじまりの町</h2>
+        <p class="tiny muted" style="text-align:center;line-height:1.8">知識を発見して集めた素材で、町を育てよう。急がなくても、町はなくならないよ。</p>
+        <div class="stats">
+          <div class="stat"><b id="townWood">0</b><span>木材</span></div>
+          <div class="stat"><b id="townHouses">0</b><span>建てたおうち</span></div>
+          <div class="stat"><b id="townLevel">1</b><span>町のレベル</span></div>
+        </div>
+        <button class="btn" style="margin-top:16px" id="buildBtn" onclick="buildHouse()">木材を5個使っておうちを建てる</button>
+        <p class="tiny muted" style="text-align:center;margin:10px 0 0">素材はスキャンの初回報酬や、知識クイズで集められるよ。</p>
+      </div>
+      <div class="section-head"><h2>これまでの発見</h2></div>
+      <div id="townHistory" class="panel tiny muted">これから町の記録が増えていくよ。</div>
+      <div class="section-head"><h2>このアプリについて</h2></div>
+      <div class="panel tiny muted" style="line-height:1.8">ハッケン！は、身近な商品をきっかけに、歴史・科学・文化・社会などの知識に出会うための試作品です。購入を促す仕組みや、毎日ログインを強制する仕組みはありません。</div>
+    </section>
+  </main>
+</div>
+<div class="bottom"><nav class="nav">
+  <button class="active" data-screen="home" onclick="showScreen('home')"><span>🏠</span>ホーム</button>
+  <button data-screen="scan" onclick="showScreen('scan')"><span>📷</span>スキャン</button>
+  <button data-screen="discover" onclick="showScreen('discover')"><span>✨</span>知識</button>
+  <button data-screen="town" onclick="showScreen('town')"><span>🌳</span>町</button>
+</nav></div>
+<div id="toast" class="toast"></div>
+<div id="modalBg" class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
+<script>
+const TARGET_JAN='4903001019124';
+const PRODUCT={jan:TARGET_JAN,name:'しょうゆ',category:'調味料',maker:'登録商品（メーカー・容量は要確認）',description:'今回の試作品で知識探索の入口として登録した商品です。'};
+const KNOWLEDGE=[
+{id:'K001',title:'醤油って何からできている？',topic:'原料・材料',emoji:'🫘',summary:'大豆、小麦、塩などが醤油の材料になるよ。',body:'一般的な濃口醤油は、大豆と小麦を主な原料に、食塩水などを使って作られるよ。原料や製法によって、味や香り、色にも違いが生まれるんだ。',links:['K005','K007','K004'],question:'一般的な醤油の主な原料の組み合わせは？',answers:['大豆・小麦・塩','りんご・牛乳・砂糖','米・魚・レモン'],correct:0,explain:'大豆と小麦を使い、食塩水などとともに醸造するのが一般的だよ。'},
+{id:'K002',title:'微生物が食べ物を変える？',topic:'仕組み・科学',emoji:'🦠',summary:'目に見えない小さな生き物が、味や香りを生み出すよ。',body:'醤油づくりでは、麹菌が原料の成分を分解する働きを助け、酵母や乳酸菌なども香りや味わいの形成に関わるよ。微生物の働きを利用することを発酵というんだ。',links:['K006','K007','K004'],question:'醤油づくりで働く、カビの仲間の微生物は？',answers:['麹菌','蚊','ミミズ'],correct:0,explain:'麹菌は醤油や味噌などの醸造に使われる微生物だよ。'},
+{id:'K003',title:'醤油はいつ生まれた？',topic:'歴史・起源',emoji:'🏺',summary:'今の醤油につながる調味料には、長い歴史があるよ。',body:'昔の日本には「醤（ひしお）」と呼ばれる発酵を利用した調味料があったよ。そこから、さまざまな製法の工夫や地域ごとの発展を経て、現在の醤油につながっていったんだ。今の醤油が一度に発明されたわけではなく、長い時間をかけて形づくられたんだね。',links:['K008','K007','K002'],question:'昔の日本にあった、醤油につながる発酵調味料は？',answers:['醤（ひしお）','ジャム','チョコレート'],correct:0,explain:'「醤（ひしお）」などの発酵調味料が、醤油の歴史を考える手がかりになるよ。'},
+{id:'K004',title:'味噌と醤油は親戚？',topic:'比較・類似',emoji:'🥣',summary:'味噌と醤油には、原料や麹を使う製法など共通点があるよ。',body:'味噌と醤油は、どちらも大豆や麹を使う発酵食品。作り方や仕上がりは違うけれど、微生物の働きを利用するという共通点があるんだ。',links:['K001','K002','K005'],question:'味噌と醤油に共通することは？',answers:['発酵を利用する','必ず同じ形をしている','冷凍しないと作れない'],correct:0,explain:'どちらも麹など微生物の働きを利用する発酵食品だよ。'},
+{id:'K005',title:'大豆はどこで育つ？',topic:'農業・自然',emoji:'🌱',summary:'醤油の原料になる大豆は、畑で育つ植物だよ。',body:'大豆はマメ科の植物。畑で育ち、豆腐、味噌、納豆、醤油など、さまざまな食品に使われるよ。どこで、どのように育てられるかを知ると、食べ物と農業のつながりが見えてくるね。',links:['K001','K004','K010'],question:'大豆はどんな植物の仲間？',answers:['マメ科','バラ科','イネ科'],correct:0,explain:'大豆はマメ科の植物だよ。'},
+{id:'K006',title:'ヨーグルトも発酵食品？',topic:'比較・科学',emoji:'🥛',summary:'ヨーグルトも微生物の働きで作られる発酵食品だよ。',body:'ヨーグルトは、乳酸菌などが牛乳の糖を利用して作られる発酵食品。醤油とは原料も微生物の組み合わせも違うけれど、微生物の働きを利用する点でつながっているよ。',links:['K002','K004'],question:'ヨーグルトづくりに関わる代表的な微生物は？',answers:['乳酸菌','カブトムシ','松の木'],correct:0,explain:'乳酸菌などの働きで、牛乳がヨーグルトになるよ。'},
+{id:'K007',title:'醤油はどうやって作る？',topic:'製造・技術',emoji:'🪵',summary:'原料を仕込み、発酵・熟成させて、醤油を作るよ。',body:'一般的な醤油づくりでは、大豆と小麦などから麹を作り、食塩水と合わせてもろみを仕込む。その後、発酵・熟成させ、搾るなどの工程を経て醤油になるんだ。製法は種類や蔵によって異なるよ。',links:['K001','K002','K003','K010'],question:'醤油づくりで、発酵・熟成させるものは？',answers:['もろみ','氷','紙'],correct:0,explain:'麹と食塩水などを合わせた「もろみ」を発酵・熟成させるよ。'},
+{id:'K008',title:'なぜ日本料理に醤油が多い？',topic:'文化・暮らし',emoji:'🍣',summary:'醤油は日本の食文化や地域の暮らしと深く関わっているよ。',body:'醤油は、煮物、焼き物、刺身など、さまざまな料理に使われてきた調味料。地域や料理によって、色や味、使い方にも違いがあるよ。食べ方をたどると、その土地の歴史や暮らしも見えてくるね。',links:['K003','K009'],question:'醤油の使われ方について正しいのは？',answers:['地域や料理で違いがある','世界中で必ず同じ味','甘いお菓子にしか使わない'],correct:0,explain:'地域や料理によって、醤油の種類や使い方はさまざまだよ。'},
+{id:'K009',title:'世界にも醤油の仲間がある？',topic:'世界・文化',emoji:'🌏',summary:'世界には魚や豆などを使った、さまざまな調味料があるよ。',body:'東アジアや東南アジアには、大豆を使った醤油や、魚を発酵させた魚醤など、さまざまな調味料があるよ。材料や作り方は違っても、食べ物をおいしくするための工夫が各地にあるんだ。',links:['K008','K003','K002'],question:'魚を発酵させて作る調味料の例は？',answers:['魚醤','メープルシロップ','麦茶'],correct:0,explain:'魚醤は魚介類を発酵させて作る調味料だよ。'},
+{id:'K010',title:'醤油はどうやって家に届く？',topic:'社会・産業',emoji:'🚚',summary:'原料を育てる人、作る人、運ぶ人、お店の人が関わっているよ。',body:'醤油が家に届くまでには、大豆や小麦を育てる人、醤油を作る人、容器に詰める人、運ぶ人、お店で販売する人など、多くの人が関わっているよ。身近な商品から社会の仕組みを考えられるね。',links:['K005','K007'],question:'商品が家に届くまでに関わる仕事は？',answers:['作る・運ぶ・販売する仕事','魔法使いだけ','誰も関わらない'],correct:0,explain:'多くの人や仕事が協力して、商品が私たちのもとに届くよ。'}
+];
+const RELATION_LABELS={ingredient:'原料・材料',science:'仕組み・科学',process:'製造・工程',history:'歴史・起源',culture:'文化・地域',similar:'比較・類似',society:'社会・産業'};
+const state=loadState();
+let activeStream=null,scanLoop=null,currentCard=null,quizChoice=null;
+function loadState(){try{return JSON.parse(localStorage.getItem('hakken_state'))||{scanned:[],discovered:[],read:[],quizDone:[],wood:0,houses:0,history:[]}}catch(e){return{scanned:[],discovered:[],read:[],quizDone:[],wood:0,houses:0,history:[]}}}
+function save(){localStorage.setItem('hakken_state',JSON.stringify(state));renderAll()}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2300)}
+function showScreen(id){stopCamera();document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.screen===id));if(id==='discover')renderKnowledge();if(id==='town')renderTown();window.scrollTo(0,0)}
+function validJAN(s){if(!/^(\d{8}|\d{13})$/.test(s))return false;let sum=0;for(let i=s.length-2,j=0;i>=0;i--,j++){sum+=Number(s[i])*(j%2===0?3:1)}return (10-sum%10)%10===Number(s[s.length-1])}
+function submitManual(){let s=document.getElementById('janInput').value.replace(/\D/g,'');processJAN(s)}
+function processJAN(code){
+ const msg=document.getElementById('scanMessage'),res=document.getElementById('scanResult');
+ if(!validJAN(code)){msg.innerHTML='<div class="message">JANコードの桁数またはチェックデジットを確認してね。数字をもう一度読み取ってみよう。</div>';res.innerHTML='';return}
+ if(code!==TARGET_JAN){msg.innerHTML='<div class="message">このJANコードの商品は、まだ登録されていないよ。今回は醤油の商品から体験してみてね。</div>';res.innerHTML='';return}
+ const first=!state.scanned.includes(code);
+ if(first){state.scanned.push(code);state.wood+=3;state.history.unshift('しょうゆを初めて発見 · 木材を3個獲得');if(!state.discovered.includes('K003'))state.discovered.push('K003');if(!state.discovered.includes('K001'))state.discovered.push('K001');save();toast('初めての発見！木材を3個ゲット');}
+ else{toast('この商品は発見済みだよ。素材は重複しても増えないよ');}
+ msg.innerHTML='';
+ res.innerHTML=`<div class="product-card"><div class="product-visual">🫙</div><div class="row between"><span class="tag">商品を発見</span><span class="tiny muted">${first?'初回発見':'発見済み'}</span></div><h2 style="margin:10px 0 4px">しょうゆ</h2><div class="tiny muted">JAN ${code}</div><p class="tiny muted" style="line-height:1.7">いつもの調味料から、歴史や科学の世界をのぞいてみよう。</p><div class="row" style="margin:14px 0"><span class="tag">📚 知識カード 2枚</span><span class="tag">🪵 ${first?'+3':'+0'} 木材</span></div><button class="btn" onclick="openCard('K003')">醤油の歴史を見てみる</button><button class="btn secondary" style="margin-top:8px" onclick="openCard('K001')">原料について知る</button></div>`;
+}
+function toggleCamera(){if(activeStream){stopCamera();document.getElementById("cameraMsg").textContent="カメラを停止しました。";return}startCamera()}
+async function startCamera(){
+ const video=document.getElementById('video'),msg=document.getElementById('cameraMsg');
+ if(!('BarcodeDetector' in window)){msg.textContent='このブラウザはバーコードのカメラ読み取りに未対応です。下の欄にJANコードを入力してね。';return}
+ try{
+  const supported=await BarcodeDetector.getSupportedFormats();if(!supported.includes('ean_13')&&!supported.includes('ean_8')){msg.textContent='この端末ではJAN形式を読み取れないようです。手入力を使ってね。';return}
+  activeStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});video.srcObject=activeStream;video.style.display='block';await video.play();msg.textContent='バーコードを枠内に映してね。';document.getElementById('cameraBtn').textContent='カメラを停止';
+  const detector=new BarcodeDetector({formats:['ean_13','ean_8']});
+  scanLoop=setInterval(async()=>{try{const codes=await detector.detect(video);if(codes.length){processJAN(codes[0].rawValue);stopCamera()}}catch(e){}},350);
+ }catch(e){msg.textContent='カメラを起動できませんでした。カメラの許可、HTTPS接続を確認するか、手入力を使ってね。'}
+}
+function stopCamera(){if(scanLoop){clearInterval(scanLoop);scanLoop=null}if(activeStream){activeStream.getTracks().forEach(t=>t.stop());activeStream=null}let v=document.getElementById('video');if(v){v.pause();v.srcObject=null;v.style.display='none'}let b=document.getElementById('cameraBtn');if(b)b.textContent='カメラを起動する'}
+function renderKnowledge(){
+ const list=document.getElementById('knowledgeList');
+ list.innerHTML=KNOWLEDGE.map(k=>{let unlocked=state.discovered.includes(k.id),read=state.read.includes(k.id);let action=unlocked?`openCard('${k.id}')`:`toast('この知識は、関連する発見から開くよ')`;return `<button class="knowledge-item ${unlocked?'':'locked'}" onclick="${action}"><div class="num">${unlocked?k.emoji:'🔒'}</div><div style="flex:1"><strong>${k.title}</strong><small>${unlocked?(read?'読んだよ · ':'発見できるよ · ')+k.topic:'まだ出会っていない知識'}</small></div><span>${unlocked?'›':'·'}</span></button>`}).join('');
+}
+function openCard(id){
+ const k=KNOWLEDGE.find(x=>x.id===id);if(!k)return;
+ if(!state.discovered.includes(id)){toast('この知識はまだ発見していないよ');return}
+ currentCard=id;quizChoice=null;state.read=state.read.includes(id)?state.read:[...state.read,id];save();showScreen('story');renderStory(k);
+}
+function renderStory(k){
+ const links=k.links.map(id=>KNOWLEDGE.find(x=>x.id===id)).filter(Boolean);
+ document.getElementById('storyContent').innerHTML=`<div class="story"><button class="btn ghost" style="width:auto;padding:9px 13px;margin-bottom:14px" onclick="showScreen('discover')">← 知識一覧へ</button><div class="story-image">${k.emoji}</div><span class="tag">${k.topic}</span><h1>${k.title}</h1><p>${k.body}</p><div class="panel" style="box-shadow:none;margin-top:14px"><strong>💡 ちょっと考えてみよう</strong><p style="font-size:13px;color:var(--ink);margin:10px 0">${k.question}</p><div class="choices">${k.answers.map((a,i)=>`<button class="choice" onclick="chooseQuiz(${i})" id="q${i}"><b>${['①','②','③'][i]} ${a}</b></button>`).join('')}</div><button class="btn" style="margin-top:12px" onclick="checkQuiz('${k.id}')">答え合わせ</button><div id="quizFeedback"></div></div><div class="section-head"><h2>次につながる発見</h2></div><p class="tiny muted">どれが気になる？選んだ知識がコレクションに加わるよ。</p><div class="choices">${links.map(x=>`<button class="choice" onclick="discoverAndOpen('${x.id}')"><b>${x.emoji} ${x.title}</b><small>${x.topic}</small></button>`).join('')}</div></div>`;
+}
+function chooseQuiz(i){quizChoice=i;document.querySelectorAll('.choice[id^="q"]').forEach(x=>x.classList.remove('selected'));document.getElementById('q'+i).classList.add('selected')}
+function checkQuiz(id){let k=KNOWLEDGE.find(x=>x.id===id),f=document.getElementById('quizFeedback');if(quizChoice===null){f.innerHTML='<div class="message">答えを選んでね。</div>';return}if(quizChoice===k.correct){if(!state.quizDone.includes(id)){state.quizDone.push(id);state.wood+=1;state.history.unshift('クイズ正解 · '+k.title+' · 木材を1個獲得');save()}f.innerHTML='<div class="message" style="background:#e8f2e7;color:#42664c">正解！ '+k.explain+(state.quizDone.includes(id)?'':' 木材を1個ゲット！')+'</div>';toast('クイズ正解！')}else{f.innerHTML='<div class="message">'+k.explain+' もう一度考えてみよう。</div>'}}
+function discoverAndOpen(id){if(!state.discovered.includes(id)){state.discovered.push(id);state.history.unshift('新しい知識を発見 · '+KNOWLEDGE.find(x=>x.id===id).title);save();toast('新しい知識を発見！')}openCard(id)}
+function buildHouse(){if(state.wood<5){toast('木材があと'+(5-state.wood)+'個必要だよ');return}state.wood-=5;state.houses++;state.history.unshift('町におうちを建てた');save();toast('町におうちができたよ！')}
+function renderTown(){document.getElementById('townWood').textContent=state.wood;document.getElementById('townHouses').textContent=state.houses;document.getElementById('townLevel').textContent=1+Math.floor(state.houses/3);document.getElementById('buildBtn').disabled=state.wood<5;document.getElementById('buildBtn').textContent=state.wood>=5?'木材を5個使っておうちを建てる':'木材が5個たまると建てられるよ';document.getElementById('townHistory').innerHTML=state.history.length?state.history.slice(0,12).map(x=>`<div style="padding:8px 0;border-bottom:1px solid var(--line)">• ${x}</div>`).join(''):'これから町の記録が増えていくよ。'}
+function renderAll(){document.getElementById('headerWood').textContent=state.wood;document.getElementById('statDiscoveries').textContent=state.discovered.length;document.getElementById('statProducts').textContent=state.scanned.length;document.getElementById('statWood').textContent=state.wood;document.getElementById('knowledgeCount').textContent=state.discovered.length+' / 10';document.getElementById('knowledgeBar').style.width=(state.discovered.length/10*100)+'%';document.getElementById('recent').innerHTML=state.history.length?state.history.slice(0,3).map(x=>`<div style="padding:7px 0;border-bottom:1px solid var(--line)">• ${x}</div>`).join(''):'まだ発見はありません。まずは商品をスキャンしてみよう。';renderKnowledge();renderTown()}
+function closeModal(){document.getElementById('modalBg').style.display='none'}
+renderAll();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>

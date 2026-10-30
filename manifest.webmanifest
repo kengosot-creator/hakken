@@ -1,0 +1,17 @@
+{
+  "name": "ハッケン！",
+  "short_name": "ハッケン！",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f3eb",
+  "theme_color": "#f6f3eb",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
